@@ -253,6 +253,15 @@ paella.addPlugin(function() {
 			if (!paella.captions.getAvailableLangs().length >= 1) {
 				paella.plugins.captionsEditorPlugin.hideUI();
 			}
+			
+			//need to clean this soon but for now will do the job									
+			paella.captions.getClosestCaptionAtTime = function(cid, time) {
+				var c = this.getCaptions(cid);		
+				if (c != undefined) {
+					return c.getClosestCaptionAtTime(time);
+				}
+				return undefined;			
+			}
 	
 			//BINDS			
 			/* check this
