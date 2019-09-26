@@ -262,6 +262,17 @@ paella.addPlugin(function() {
 				}
 				return undefined;			
 			}
+
+			paella.captions.Caption.prototype.getClosestCaptionAtTime = function(time) {
+				if (this._captions != undefined) {
+					for (var i=0; i<this._captions.length; ++i) {
+						if (time <= this._captions[i].end) return this._captions[i];
+					}
+					if (this._captions.length)
+						return this._captions[this._captions.length-1];
+				}
+				return undefined;		
+			}
 	
 			//BINDS			
 			/* check this
