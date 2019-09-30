@@ -253,8 +253,7 @@ paella.addPlugin(function() {
 			if (!paella.captions.getAvailableLangs().length >= 1) {
 				paella.plugins.captionsEditorPlugin.hideUI();
 			}
-			
-			//need to clean this soon but for now will do the job									
+			//need to clean this soon but for no will do the job									
 			paella.captions.getClosestCaptionAtTime = function(cid, time) {
 				var c = this.getCaptions(cid);		
 				if (c != undefined) {
@@ -263,6 +262,18 @@ paella.addPlugin(function() {
 				return undefined;			
 			}
 
+			paella.captions._getClosestCaptionAtTime = paella.captions.getClosestCaptionAtTime
+
+			paella.captions.Caption.prototype.setCaptionByIndex = function(index, obj) {
+				if (this._captions != undefined && this._captions.length > index) {
+					if ("begin" in obj) this._captions[index]["begin"] = obj.begin;
+					if ("end" in obj) this._captions[index]["end"] = obj.end;
+					if ("content" in obj) this._captions[index]["content"] = obj.content;
+					return true;
+				}
+				return false;
+			}
+			
 			paella.captions.Caption.prototype.getClosestCaptionAtTime = function(time) {
 				if (this._captions != undefined) {
 					for (var i=0; i<this._captions.length; ++i) {
@@ -273,6 +284,7 @@ paella.addPlugin(function() {
 				}
 				return undefined;		
 			}
+	
 	
 			//BINDS			
 			/* check this
@@ -696,7 +708,6 @@ paella.addPlugin(function() {
 				$(self._toolbar).empty();
 
 				//SELECT
-				console.log('alert')
 				let captionselector = document.createElement("select");
 				captionselector.className = "captionsSelector";
 
@@ -714,7 +725,6 @@ paella.addPlugin(function() {
 						option.selected="selected"						
 					}
 					captionselector.add(option);
-					console.log("checklang");
 				});
 
 
